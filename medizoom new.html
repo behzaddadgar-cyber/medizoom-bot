@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مدیزوم | سلامت دیجیتال</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Vazirmatn', sans-serif; background: #F4F8FF; color: #0D1B2A; }
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 99;
+      background: rgba(255,255,255,0.9); backdrop-filter: blur(12px);
+      border-bottom: 1px solid #e0e8ff;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 64px;
+    }
+    .logo { font-size: 1.4rem; font-weight: 800; color: #1A6BE0; }
+    .logo span { color: #0ABFBC; }
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      justify-content: center; text-align: center;
+      padding: 100px 5% 60px;
+      background: linear-gradient(135deg, #EAF1FF 0%, #F0FFFE 100%);
+    }
+    .hero-inner { max-width: 700px; }
+    .badge {
+      display: inline-block; background: rgba(26,107,224,0.1);
+      color: #1A6BE0; padding: 6px 16px; border-radius: 50px;
+      font-size: 0.8rem; font-weight: 600; margin-bottom: 24px;
+    }
+    h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; margin-bottom: 20px; }
+    h1 em { font-style: normal; color: #1A6BE0; }
+    .hero p { font-size: 1.1rem; color: #6B7A8D; max-width: 500px; margin: 0 auto 36px; }
+    .btn {
+      padding: 14px 32px; border-radius: 50px; font-size: 1rem;
+      font-weight: 700; text-decoration: none; display: inline-block;
+      background: #1A6BE0; color: white; margin: 6px;
+      font-family: 'Vazirmatn', sans-serif; cursor: pointer; border: none;
+    }
+    .demo-section {
+      background: #0D1B2A; color: white;
+      padding: 80px 5%; text-align: center;
+    }
+    .demo-section h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
+    .demo-section p { color: rgba(255,255,255,0.5); margin-bottom: 40px; }
+    .demo-box {
+      max-width: 600px; margin: 0 auto;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; padding: 32px; text-align: right;
+      min-height: 150px;
+    }
+    .demo-tag {
+      display: inline-block; background: #0ABFBC; color: #0D1B2A;
+      font-size: 0.75rem; font-weight: 700; padding: 4px 12px;
+      border-radius: 50px; margin-bottom: 16px;
+    }
+    #demoText { font-size: 0.95rem; line-height: 1.8; color: rgba(255,255,255,0.85); }
+    #demoHashtags { margin-top: 16px; font-size: 0.8rem; color: #0ABFBC; line-height: 2; }
+    .generate-btn {
+      margin-top: 32px;
+      background: linear-gradient(135deg, #1A6BE0, #0ABFBC);
+      color: white; padding: 14px 36px; border-radius: 50px;
+      border: none; font-size: 1rem; font-weight: 700;
+      font-family: 'Vazirmatn', sans-serif; cursor: pointer;
+    }
+    .generate-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    #loadingText { display: none; color: #0ABFBC; margin-top: 12px; font-size: 0.9rem; }
+    #errorText { display: none; color: #ff6b6b; margin-top: 12px; font-size: 0.85rem; direction: ltr; }
+    footer { text-align: center; padding: 40px; color: #6B7A8D; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Medi<span>zoom</span></div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="badge">🤖 هوش مصنوعی + سلامت دیجیتال</div>
+    <h1>محتوای پزشکی<br/><em>هر روز، خودکار</em></h1>
+    <p>موتور هوش مصنوعی Medizoom هر روز محتوای علمی و جذاب پزشکی تولید و منتشر می‌کند.</p>
+    <a href="#demo" class="btn">نمونه محتوا ببین 👇</a>
+  </div>
+</section>
+
+<div class="demo-section" id="demo">
+  <h2>نمونه زنده محتوای AI</h2>
+  <p>روی دکمه بزن تا Claude یه پست واقعی بسازه</p>
+
+  <div class="demo-box">
+    <div class="demo-tag">✨ تولید شده با Claude AI</div>
+    <div id="demoText">روی دکمه زیر بزن تا یه پست پزشکی واقعی ساخته بشه...</div>
+    <div id="demoHashtags"></div>
+  </div>
+
+  <div>
+    <button class="generate-btn" id="genBtn" onclick="generateDemo()">🤖 تولید پست نمونه</button>
+    <div id="loadingText">⏳ Claude در حال نوشتن...</div>
+    <div id="errorText"></div>
+  </div>
+</div>
+
+<footer>
+  <p>ساخته شده با ❤️ برای Medizoom — موتور هوش مصنوعی محتوای پزشکی</p>
+</footer>
+
+<script>
+const WORKER_URL = "https://dark-dust-b5c6.behzad-dadgar.workers.dev";
+
+async function generateDemo() {
+  const btn = document.getElementById("genBtn");
+  const loader = document.getElementById("loadingText");
+  const textEl = document.getElementById("demoText");
+  const hashEl = document.getElementById("demoHashtags");
+  const errEl = document.getElementById("errorText");
+
+  btn.disabled = true;
+  loader.style.display = "block";
+  errEl.style.display = "none";
+  textEl.textContent = "";
+  hashEl.textContent = "";
+
+  const topics = [
+    "خواب کافی و تأثیر آن بر سیستم ایمنی",
+    "فشار خون و راه‌های کنترل آن",
+    "تغذیه سالم در فصل سرما",
+    "استرس و راه‌های مدیریت آن",
+    "ورزش روزانه و فواید آن",
+  ];
+  const topic = topics[Math.floor(Math.random() * topics.length)];
+
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        messages: [{
+          role: "user",
+          content: `یه پست اینستاگرام پزشکی کوتاه (۱۰۰ کلمه) درباره "${topic}" به فارسی بنویس. در آخر ۵ هشتگ فارسی مرتبط بنویس. فقط متن پست و هشتگ‌ها، بدون توضیح اضافه.`
+        }]
+      })
+    });
+
+    if (!res.ok) {
+      throw new Error("HTTP " + res.status);
+    }
+
+    const data = await res.json();
+    
+    if (data.error) {
+      throw new Error(data.error.message || "API Error");
+    }
+
+    const text = data.content[0].text;
+    const lines = text.split('\n');
+    const hashLines = lines.filter(l => l.includes('#'));
+    const textLines = lines.filter(l => !l.includes('#'));
+
+    textEl.textContent = textLines.join('\n').trim();
+    hashEl.textContent = hashLines.join(' ').trim();
+
+  } catch (e) {
+    errEl.style.display = "block";
+    errEl.textContent = "Error: " + e.message;
+    textEl.textContent = "مشکلی پیش آمد. لطفاً دوباره امتحان کن.";
+  }
+
+  btn.disabled = false;
+  loader.style.display = "none";
+}
+</script>
+
+</body>
+</html>
